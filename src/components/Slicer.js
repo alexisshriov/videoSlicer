@@ -22,19 +22,19 @@ class Slicer extends Component {
             <div style= {{borderStyle: 'double', padding: 5, width: 900}}>
                 <label>
                     name:
-                    <input type="text" name="name" onChange={this.handleChange}/>
+                    <input type="text" name="name" value={this.state.name} onChange={this.handleChange}/>
                 </label>
                 <label>
                     startTime:
-                    <input type="text" name="startTime" onChange={this.handleChange}/>
+                    <input type="text" name="startTime" value={this.state.startTime} onChange={this.handleChange}/>
                 </label>
                 <label>
                     endTime:
-                    <input type="text" name="endTime" onChange={this.handleChange}/>
+                    <input type="text" name="endTime" value={this.state.endTime} onChange={this.handleChange}/>
                 </label>
                 <label>
                     tags:
-                    <input type="text" name="tags" onChange={this.handleChange}/>
+                    <input type="text" name="tags" value={this.state.tags}  onChange={this.handleChange}/>
                 </label>
                 <button onClick = {this.handleClick}>add clip</button>
             </div>

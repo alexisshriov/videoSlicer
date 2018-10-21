@@ -2,9 +2,8 @@ import { createStore } from 'redux'
 import rootReducer from '../reducers'
 
 const initialClips = [
-        { id: 'c80d', name: 'clip1', startTime: 10, endTime: 15, tags: 'tag1,tag2,tag3' },
-        { id: 'c4th', name: 'clip2', startTime: 20, endTime: 22, tags: 'tag2,tag3' },
-        { id: '29dh', name: 'clip3', startTime: 40, endTime: 50, tags: 'tag3' }
+        { id: 'c80d', name: 'clip1', startTime: 4, endTime: 7, tags: 'tag1,tag2,tag3' },
+        { id: '29dh', name: 'clip3', startTime: 35, endTime: 38, tags: 'tag3' }
     ]
 
 

@@ -9,7 +9,7 @@ import Slicer from './Slicer'
 
 class Main extends Component {
 
-    state = { url: 'http://www.html5videoplayer.net/videos/toystory.mp4', videoRef: undefined, isVideoLoading: false }
+    state = { url: 'https://download.blender.org/durian/trailer/sintel_trailer-480p.mp4', videoRef: undefined, isVideoLoading: false }
     //currentClip = undefined;
     nextClip = undefined;
     self = this;
@@ -92,12 +92,11 @@ class Main extends Component {
                     <VideoPlayer url={this.state.url} width={300} heigth={300} clips={this.props.clips} selectClip={(url) => this.selectClip(url)} setVideoRef={this.setVideoRef} countDownDone={() => this.countDownDone()} isLoading={this.state.isVideoLoading} playClip={this.playClip} />
                     <ReproductionList clips={this.props.clips} editClip={this.editClip} removeClip={this.removeClip} playClip={this.playClip} />
                 </div>
-                {!this.state.isVideoLoading ?
-                    <div>
-                        <Slicer addClip={this.props.addClip} />
-                        <button style={{ backgroundColor: 'lightBlue' }} onClick={this.saveAllchanges}>save all changes</button>
-                    </div> : null
-                }
+
+                <div>
+                    <Slicer addClip={this.props.addClip} />
+                    <button style={{ backgroundColor: 'lightBlue' }} onClick={this.saveAllchanges}>save all changes</button>
+                </div>
             </div>
         )
     }
