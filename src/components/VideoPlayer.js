@@ -11,11 +11,7 @@ class VideoPlayer extends PureComponent {
         video.play()
 
         const self = this
-        // setTimeout(() => {
-        //     video.pause()
-        //     this.setState({ clips: this.props.clips, duration: video.duration})
-        // }, 400)     
-
+        
         video.addEventListener('loadeddata', function () {
             video.pause()
             self.setState({ clips: self.props.clips, duration: video.duration})

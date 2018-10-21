@@ -62,8 +62,6 @@ class Clip extends Component {
                         <p><b>tags: </b> {editingMode ? <input type='text' name='tags' value={tags} onChange={this.handleChange} /> : <label>{tags}</label>}</p>
                     </div>: null}
                 {this.renderButtons(this.props.isEditable)}
-
-
             </div>
         )
     }

@@ -10,51 +10,62 @@ import Slicer from './Slicer'
 class Main extends Component {
 
     state = { url: 'http://www.html5videoplayer.net/videos/toystory.mp4', videoRef: undefined, isVideoLoading: false }
-    currentClip = undefined;
+    //currentClip = undefined;
     nextClip = undefined;
     self = this;
 
-
     playClip = (clip) => {
-        if(!clip){
+        
+        // if the clip is null then the play list stops
+        if (!clip) {
             return
         }
 
+        // put together the url corresponding to the selected clip
         const baseUrl = this.state.url.split('#')[0]
         let clipUrl = `${baseUrl}#t=${clip.startTime}`
-        if(clip.endTime !== 0){
+
+        if (clip.endTime !== 0) {
             clipUrl = clipUrl + `,${clip.endTime}`
         }
+
         this.setState({ url: clipUrl })
-        this.currentClip = clip
         const index = this.props.clips.indexOf(clip)
+       // this.currentClip = clip
         this.nextClip = this.props.clips[index + 1]
-        this.prevClip = this.props.clips[index -1]
+        this.prevClip = this.props.clips[index - 1]
+
+        // keep reference to this object to be used inside the  eventListeners 
         const self = this
+
 
         setTimeout(() => {
             this.state.videoRef.play()
-            this.state.videoRef.addEventListener('pause', function(){
 
-            if(Math.floor(self.state.videoRef.currentTime) === clip.endTime){
-                self.setState({isVideoLoading: true})
+            // when the video is paused and the clip has finished then it displays the loader
+            this.state.videoRef.addEventListener('pause', function () {
+                if (Math.floor(self.state.videoRef.currentTime) === clip.endTime) {
+                    self.setState({ isVideoLoading: true })
+                }
+            })
+        }, 400)
+
+        const nextClip = this.nextClip
+        const prevClip = this.prevClip
+
+        //  logic to handle the hot keys (q and w)
+        document.body.addEventListener('keypress', (e) => {
+            if (e.which === 119) {
+                self.playClip(nextClip)
             }
-         })
-        }, 100)
-
-        // document.body.addEventListener('keypress', (e) => {
-        //     debugger
-        //     if(e.which === 119){
-        //         self.playClip(self.nextClip)
-        //     }
-        //     if(e.which === 113){
-        //         self.playClip(self.prevClip)
-        //     }
-        // }); 
+            if (e.which === 113) {
+                self.playClip(prevClip)
+            }
+        });
     }
-    
+
     countDownDone = () => {
-        this.setState({isVideoLoading: false})
+        this.setState({ isVideoLoading: false })
         this.playClip(this.nextClip)
     }
 
@@ -67,7 +78,7 @@ class Main extends Component {
     }
 
     setVideoRef = (ref) => {
-        this.setState({videoRef: ref})
+        this.setState({ videoRef: ref })
     }
 
     saveAllchanges = () => {
@@ -75,21 +86,19 @@ class Main extends Component {
     }
 
     render() {
-
         return (
             <div style={{ margin: 100 }}>
-
                 <div style={styles}>
                     <VideoPlayer url={this.state.url} width={300} heigth={300} clips={this.props.clips} selectClip={(url) => this.selectClip(url)} setVideoRef={this.setVideoRef} countDownDone={() => this.countDownDone()} isLoading={this.state.isVideoLoading} playClip={this.playClip} />
                     <ReproductionList clips={this.props.clips} editClip={this.editClip} removeClip={this.removeClip} playClip={this.playClip} />
                 </div>
-                <div>
-                    <Slicer addClip={this.props.addClip} />
-                    <button style = {{backgroundColor: 'lightBlue'}} onClick={this.saveAllchanges}>save all changes</button>
-                </div>
-
-
-            </div>   
+                {!this.state.isVideoLoading ?
+                    <div>
+                        <Slicer addClip={this.props.addClip} />
+                        <button style={{ backgroundColor: 'lightBlue' }} onClick={this.saveAllchanges}>save all changes</button>
+                    </div> : null
+                }
+            </div>
         )
     }
 }
@@ -101,10 +110,10 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = (dispatch) => (
-     bindActionCreators(actions, dispatch)
+    bindActionCreators(actions, dispatch)
 )
 
-export default connect(mapStateToProps, mapDispatchToProps)(Main) 
+export default connect(mapStateToProps, mapDispatchToProps)(Main)
 
 const styles = {
     display: 'flex',
